@@ -5,7 +5,7 @@ import path from "path";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SignInButton, SignOutButton } from "@clerk/nextjs";
-import { UserButton, useUser } from '@clerk/nextjs'
+import {  UserButton, useUser } from '@clerk/nextjs'
 
 const menuOptions = [
   {
@@ -23,7 +23,7 @@ const menuOptions = [
 ];
 
 function Header() {
-  const { user, isSignedIn } = useUser();
+  const { user, isSignedIn } = useUser(); //is the user signed in 
 
   return (
     <div className="p-3 shadow-sm flex justify-between items-center px-5">
@@ -55,14 +55,22 @@ function Header() {
             <UserButton />
           </div>
         ) : (
-          // ❌ ΑΝ ΔΕΝ ΕΙΝΑΙ ΣΥΝΔΕΔΕΜΕΝΟΣ: Δεν δείχνουμε τίποτα εδώ (το Get Started αρκεί)
+          // ΑΝ ΔΕΝ ΕΙΝΑΙ ΣΥΝΔΕΔΕΜΕΝΟΣ: Δεν δείχνουμε τίποτα εδώ (το Get Started αρκεί)
           null
         )}
         
         {/* Το Get Started μένει πάντα εδώ και λειτουργεί ως Login όταν είσαι έξω */}
+        {!isSignedIn ? (
+        // Αν ΔΕΝ είναι συνδεδεμένος -> Κουμπί Login
         <SignInButton mode="modal">
-            <Button>Get Started</Button>
+          <Button>Get Started, It's Free</Button>
         </SignInButton>
+      ) : (
+        // Αν ΕΙΝΑΙ συνδεδεμένος -> Κουμπί για δημιουργία ταξιδιού
+        <Link href="/create-new-trip">
+          <Button>Create New Trip</Button>
+        </Link>
+      )}
       </div>
     </div>
   );

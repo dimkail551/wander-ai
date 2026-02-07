@@ -12,6 +12,8 @@ model User {
   clerkId   String   @unique
   email     String   @unique
   name      String?
+  imageUrl  String?  
+  subscription Boolean? @default(false)
   createdAt DateTime @default(now())
   
   Trip      Trip[]

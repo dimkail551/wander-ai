@@ -1,12 +1,14 @@
-"use client"
+"use client";
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import React, { use } from 'react'
 import { Divide, Globe2, Landmark, Plane, Send } from 'lucide-react'
 import { title } from 'process';
-import { useUser } from '@clerk/nextjs';
+import { useUser, SignInButton } from '@clerk/nextjs';
+import { on } from 'events'
+import { useRouter } from "next/navigation";
 
-const suggestions = [
+export const suggestions = [
     {
         title:"Create New Trip", 
         icon:<Globe2 className='text-blue-400 h-5 w-5'/>
@@ -28,6 +30,15 @@ const suggestions = [
 function Hero() {
 
     const {user} = useUser();
+    const router = useRouter();
+    const onSend = () => {
+        if(!user){
+            router.push('/sign-in');
+            return;
+        }
+        //navigate to newtrip
+        router.push('/create-new-trip');
+    }
 
   return (
     <div className='mt-24 flex flex-col items-center justify-center gap-8 px-4'>
@@ -42,7 +53,7 @@ function Hero() {
                 <Textarea placeholder='Create a trip from Paris to New York'
                 className='w-full h-28 bg-transparent border-none focus-vissible:ring-0 shadow-none resize-none'
                 />
-                <Button size={'icon'} className='absolute bottom-6 right-6'>    
+                <Button size={'icon'} className='absolute bottom-6 right-6' onClick={()=>onSend()}>    
                     <Send className='h-4 w-4'/>
                 </Button>
             </div>
